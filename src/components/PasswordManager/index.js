@@ -1,11 +1,18 @@
 import {Component} from 'react'
 
+import PasswordItem from '../PasswordItem'
+
+import './index.css'
+
+// import PasswordItem from '../PasswordItem'
+
 class PasswordManager extends Component {
   state = {
-    passwordsList: [{website: 'google', username: 'bilal', password: 'pwd'}],
+    passwordsList: [],
     website: '',
     username: '',
     password: '',
+    isChecked: false,
   }
 
   getUsername = event => {
@@ -32,11 +39,40 @@ class PasswordManager extends Component {
     this.setState(prevState => ({
       passwordsList: [...prevState.passwordsList, newPassword],
     }))
+
+    this.setState({username: '', website: '', password: ''})
+  }
+
+  renderPasswordsList = () => {
+    const {passwordsList} = this.state
+    // console.log(passwordsList)
+
+    if (passwordsList.length === 0) {
+      return (
+        <div>
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/no-passwords-img.png"
+            alt="no passwords"
+          />
+          <h2>No Passwords</h2>
+        </div>
+      )
+    }
+    return (
+      <ul>
+        {passwordsList.map(passwordDetails => (
+          <PasswordItem
+            passwordDetails={passwordDetails}
+            key={passwordDetails.username}
+          />
+        ))}
+      </ul>
+    )
   }
 
   render() {
-    const {website, username, password, passwordsList} = this.state
-    console.log(passwordsList)
+    const {website, username, password, passwordsList, isChecked} = this.state
+    console.log(isChecked)
 
     return (
       <div className="app-container">
@@ -65,6 +101,15 @@ class PasswordManager extends Component {
           <br />
           <button type="submit">Add</button>
         </form>
+        <div className="passwords-container">
+          <h2>Your Passwords</h2>
+          <p>{passwordsList.length}</p>
+          <input type="search" placeholder="Search" />
+          <input type="checkbox" id="checkbox" />
+          <label htmlFor="checkbox">Show Passwords</label>
+          <hr />
+          {this.renderPasswordsList()}
+        </div>
       </div>
     )
   }
