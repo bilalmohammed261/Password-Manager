@@ -108,15 +108,9 @@ class PasswordManager extends Component {
   }
 
   render() {
-    const {
-      website,
-      username,
-      password,
-      passwordsList,
-      isChecked,
-      searchInput,
-    } = this.state
-    console.log(isChecked)
+    const {website, username, password, isChecked, searchInput} = this.state
+    const filteredPasswordsList = this.getFilteredPasswordsList()
+    // console.log(isChecked)
 
     return (
       <div className="app-container">
@@ -168,7 +162,7 @@ class PasswordManager extends Component {
         />
         <div className="passwords-container">
           <h2>Your Passwords</h2>
-          <p>{passwordsList.length}</p>
+          <p>{filteredPasswordsList.length}</p>
           <img
             src="https://assets.ccbp.in/frontend/react-js/password-manager-search-img.png"
             alt="search"
@@ -183,6 +177,7 @@ class PasswordManager extends Component {
             type="checkbox"
             id="checkbox"
             onClick={this.togglePasswordView}
+            value={isChecked}
           />
           <label htmlFor="checkbox">Show Passwords</label>
           <hr />
